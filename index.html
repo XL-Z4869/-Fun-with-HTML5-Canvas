@@ -21,6 +21,71 @@
             border: 1px solid black;
         }
     </style>
+    <script>
+        const canvas = document.querySelector('#draw')
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        const ctx = canvas.getContext('2d');
+        let draw = false;
+        ctx.lineCap = "round";
+        ctx.lineJoin = "round";
+
+        let h = 0
+
+        let width = 50
+        let direction = 1
+        let x = 0;
+        let y = 0;
+
+
+        ctx.strokeStyle = `hsl(${h}, 100%, 50%)`;
+        ctx.lineWidth = width
+        canvas.addEventListener('mousedown', (e) => {
+            draw = true;
+            if (!draw) return;
+
+            // console.log(e);
+            [x, y] = [e.offsetX, e.offsetY]
+
+
+
+
+        })
+        canvas.addEventListener('mousemove', (e) => {
+            if (!draw) return;
+            ctx.beginPath();
+            draw = true;
+
+            if (width <= 1 || width >= 50) {
+                direction *= -1
+            }
+            if (direction === 1) {
+                width++
+            } else {
+                width--
+            }
+            // console.log(width);
+            h = h < 360 ? (h + 1) : 0
+            console.log(h);
+            let [lastX, lastY] = [e.offsetX, e.offsetY]
+            ctx.strokeStyle = `hsl(${h}, 100%, 50%)`;
+            ctx.lineWidth = width
+                // console.log(lastX, lastY);
+            ctx.moveTo(x, y)
+            ctx.lineTo(lastX, lastY);
+
+            [x, y] = [lastX, lastY]
+            ctx.stroke();
+
+
+        })
+        canvas.addEventListener('mouseup', (e) => {
+            draw = false;
+        })
+        canvas.addEventListener('mouseleave', (e) => {
+            draw = false;
+        })
+    </script>
 
 </body>
 
